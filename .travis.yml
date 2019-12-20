@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "12"
+
+services:
+  - mysql
+
+env:
+  - NODE_ENV=test
+
+before_install:
+  - npm install
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS alz_chatroom_test default character set utf8mb4 collate utf8mb4_unicode_ci;'
+  - npm install sequelize-cli -g
+
+before_script:
+  - sequelize db:migrate
+
+script:
+  - npm test
+
+after_success:
+  - npm run coveralls
