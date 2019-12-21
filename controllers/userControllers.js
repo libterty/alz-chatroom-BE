@@ -40,9 +40,7 @@ const userController = {
 
     User.findOne({ where: { email: req.body.email } }).then(user => {
       if (user) {
-        return res
-          .status(400)
-          .json({ status: 'error', message: '信箱重複！' });
+        return res.status(400).json({ status: 'error', message: '信箱重複！' });
       }
       if (isName) {
         return res

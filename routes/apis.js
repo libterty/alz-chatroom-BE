@@ -28,12 +28,30 @@ router.get('/', (req, res) =>
 router.get('/test', authenticated, (req, res) =>
   res.status(200).json({ status: 'success', message: 'Auth Test!' })
 );
-
+// admin User
 router.get(
   '/admin',
   authenticated,
   authenticatedAdmin,
   adminController.hiAdmin
+);
+router.get(
+  '/admin/users',
+  authenticated,
+  authenticatedAdmin,
+  adminController.getAllUsers
+);
+router.put(
+  '/admin/users/:id',
+  authenticated,
+  authenticatedAdmin,
+  adminController.putUser
+);
+router.delete(
+  '/admin/users/:id',
+  authenticated,
+  authenticatedAdmin,
+  adminController.deleteUser
 );
 
 router.post('/signin', userControlloer.signIn);

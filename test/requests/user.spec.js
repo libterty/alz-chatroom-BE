@@ -17,7 +17,7 @@ describe('# User Auth Request', () => {
           name: 'tes1',
           email: 'test1@example.com',
           password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
-          admin: true
+          isAdmin: true
         });
       });
 
@@ -90,13 +90,13 @@ describe('# User Auth Request', () => {
           name: 'test1',
           email: 'test1@example.com',
           password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
-          admin: false
+          isAdmin: false
         });
         await db.User.create({
           name: 'test2',
           email: 'test2@example.com',
           password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
-          admin: false
+          isAdmin: false
         });
       });
 
@@ -167,7 +167,9 @@ describe('# User Auth Request', () => {
           .expect(400)
           .end((err, res) => {
             expect(res.body.status).to.equal('error');
-            expect(res.body.message).to.equal('密碼強度太弱，密碼長度需大等於8字元！');
+            expect(res.body.message).to.equal(
+              '密碼強度太弱，密碼長度需大等於8字元！'
+            );
             done();
           });
       });
