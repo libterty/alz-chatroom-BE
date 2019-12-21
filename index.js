@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({ credentials: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());

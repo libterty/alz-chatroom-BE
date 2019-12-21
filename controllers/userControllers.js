@@ -57,7 +57,7 @@ const userController = {
         )
       }).then(() => {
         return res
-          .status(400)
+          .status(200)
           .json({ status: 'success', message: '帳號建立成功' });
       });
     });
@@ -104,7 +104,7 @@ const userController = {
         user: {
           id: user.id,
           name: user.name,
-          isAdmin: user.admin
+          isAdmin: user.isAdmin
         }
       });
     });
