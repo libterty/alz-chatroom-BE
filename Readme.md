@@ -28,7 +28,7 @@ npm install
 
 ## Run the Project
 ```
-npm install
+npm run dev
 ```
 
 ### Run your tests
