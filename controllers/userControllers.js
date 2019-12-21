@@ -104,7 +104,7 @@ const userController = {
         user: {
           id: user.id,
           name: user.name,
-          isAdmin: user.admin
+          isAdmin: user.isAdmin
         }
       });
     });
