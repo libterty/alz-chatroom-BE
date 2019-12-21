@@ -12,10 +12,8 @@ const adminController = {
     });
   },
   putUser: (req, res) => {
-    console.log('user.id', req.params.id);
     return User.findByPk(req.params.id)
       .then(user => {
-        console.log('user', user);
         user
           .update({
             isAdmin: !user.dataValues.isAdmin
