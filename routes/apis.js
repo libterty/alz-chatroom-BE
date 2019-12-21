@@ -6,6 +6,7 @@ const helpers = require('../_helpers');
 const authenticated = passport.authenticate('jwt', { session: false });
 const userControlloer = require('../controllers/userControllers');
 const adminController = require('../controllers/adminControllers');
+const messageController = require('../controllers/messageController');
 
 const authenticatedAdmin = (req, res, next) => {
   if (helpers.getUser(req)) {
@@ -28,15 +29,36 @@ router.get('/', (req, res) =>
 router.get('/test', authenticated, (req, res) =>
   res.status(200).json({ status: 'success', message: 'Auth Test!' })
 );
-
+// admin User
 router.get(
   '/admin',
   authenticated,
   authenticatedAdmin,
   adminController.hiAdmin
 );
+router.get(
+  '/admin/users',
+  authenticated,
+  authenticatedAdmin,
+  adminController.getAllUsers
+);
+router.put(
+  '/admin/users/:id',
+  authenticated,
+  authenticatedAdmin,
+  adminController.putUser
+);
+router.delete(
+  '/admin/users/:id',
+  authenticated,
+  authenticatedAdmin,
+  adminController.deleteUser
+);
 
 router.post('/signin', userControlloer.signIn);
 router.post('/signup', userControlloer.signUp);
+// 聊天室功能
+router.get('/chatroom', authenticated, messageController.getAllMessages);
+router.post('/chatroom/create', authenticated, messageController.postMessage);
 
 module.exports = router;
