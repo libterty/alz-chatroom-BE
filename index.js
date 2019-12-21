@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const cors = require('cors');
+const passport = require('./config/passport');
 const helpers = require('./_helpers');
 
 const app = express();
@@ -14,6 +15,8 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(cors({ credentials: true, origin: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(methodOverride('_method'));
 app.use((req, res, next) => {
   res.locals.user = helpers.getUser(req);

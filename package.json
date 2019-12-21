@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "nyc mocha test --exit --recursive --timeout 5000 || true",
+    "dev": "cross-env nodemon index.js",
+    "test": "cross-env nyc mocha test --exit --recursive --timeout 5000 || true",
     "lint": "eslint --format table --fix .",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -17,6 +17,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "coveralls": "^3.0.9",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "faker": "^4.1.0",
@@ -44,8 +45,8 @@
     "supertest": "^4.0.2"
   },
   "prettier": {
-      "semi": true,
-      "userTabs": true,
-      "singleQuote": true
+    "semi": true,
+    "userTabs": true,
+    "singleQuote": true
   }
 }
