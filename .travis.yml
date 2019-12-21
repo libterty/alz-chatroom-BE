@@ -1,23 +1,21 @@
 language: node_js
 node_js:
-  - "12"
-
+- '12'
 services:
-  - mysql
-
+- mysql
 env:
+  matrix:
   - NODE_ENV=test
-
+  global:
+    secure: oj+yA1VvD2Jx0TTJu2by9reDBGCH7BjFTna/M3z9U5dOFGA1bkxtUBPkIO05MwRRx6qa7Kl/pjM+sAMh6Gzzj8rP5U1+D5NdhESl2kiomBw4eGYVduKjBO4mM7ak3JzMxb38u28OkiP9TYS2ccxyM9qQ4Q7DvR/fAtje0i28KOii28aRpBCIpX6Y/JNv0hza6xy5jkYBME0WsmmiIhmBmR+wPeGAE0OXM8XtBAANkFQ36XGrgpyLFW2sboVZqUyYBUUgSb3+hHmDpR3MilpPp3dQ01V/wSkQKotK0r8eyjfLOaVLjsK77NHklXaJMUA/UqAIDoR0JFBZvFHoZmRdOWgqREsZ8DrtDqzHbvXJLKbw1DiLLBxHcRg3Ob5r+ok5vTibXfZFrsG3lq3l0929TKXX/fCv0QMk2xWafs8ORVLDm1XhKjzAYWZDZ30ucJ0dfbibx2sZNUg9GrGjgD4fxmERtovx0AppkmQ6TctWqpsnd4ipk04A4ibnQGMpUXQSB3DcACqyZkVXqKYlzrf7iQcwH+pjWSS1izbXiFVNo5kOIafvPgpWJrQuZ/0Vk1/GbR9vVxdaqXrU1sWzYfwhd9ztv5zdV0Hs3UkO+6UuU982rOhzHs3SAzu+DmaM9b7HVHeBg9Jp96+W/CbW5YTk1NVj3ZmfY66TDdBANXRFenI=
 before_install:
-  - npm install
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS alz_chatroom_test default character set utf8mb4 collate utf8mb4_unicode_ci;'
-  - npm install sequelize-cli -g
-
+- npm install
+- mysql -e 'CREATE DATABASE IF NOT EXISTS alz_chatroom_test default character set
+  utf8mb4 collate utf8mb4_unicode_ci;'
+- npm install sequelize-cli -g
 before_script:
-  - sequelize db:migrate
-
+- sequelize db:migrate
 script:
-  - npm test
-
+- npm test
 after_success:
-  - npm run coveralls
+- npm run coveralls
