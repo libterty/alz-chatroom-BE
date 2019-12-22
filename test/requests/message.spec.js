@@ -55,7 +55,6 @@ describe('# Message Request', () => {
           expect(res.body.messages[1].message).to.equal('測試2');
           expect(res.body.messages[0].username).to.equal('test1');
           expect(res.body.messages[1].username).to.equal('test2');
-          token = res.body.token;
           done();
         });
     });
@@ -113,6 +112,87 @@ describe('# Message Request', () => {
             expect(msg.dataValues.message).to.equal('測試3');
             return done();
           });
+        });
+    });
+
+    after(async () => {
+      await db.User.destroy({ where: {}, truncate: true });
+      await db.Message.destroy({ where: {}, truncate: true });
+    });
+  });
+
+  context('When User Request to send message data and delete User Again', () => {
+    before(async () => {
+      let adminToken, userToken;
+      await db.User.create({
+        name: 'test1',
+        email: 'test1@example.com',
+        password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+        isAdmin: true
+      });
+      await db.User.create({
+        name: 'test2',
+        email: 'test2@example.com',
+        password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
+        isAdmin: false
+      });
+      await db.Message.create({ message: '測試1', UserId: 1 });
+      await db.Message.create({ message: '測試2', UserId: 2 });
+    });
+
+    it('should return 200 and get token', done => {
+      request(app)
+        .post('/api/signin')
+        .send({ email: 'test1@example.com', password: '12345678' })
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body.status).to.equal('success');
+          expect(res.body.token).not.to.equal(undefined);
+          adminToken = res.body.token;
+          done();
+        });
+    });
+
+    it('should return 200 and get token', done => {
+      request(app)
+        .post('/api/signin')
+        .send({ email: 'test2@example.com', password: '12345678' })
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body.status).to.equal('success');
+          expect(res.body.token).not.to.equal(undefined);
+          userToken = res.body.token;
+          done();
+        });
+    });
+
+    it('should return 200 and delete User', done => {
+      request(app)
+        .delete('/api/admin/users/2')
+        .set('Authorization', 'bearer ' + adminToken)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end((err, res) => {
+          db.User.findByPk(2).then(user => {
+            expect(user).to.equal(null);
+            return done();
+          });
+        });
+    });
+
+    it('should return 200 and get token', done => {
+      request(app)
+        .get('/api/chatroom')
+        .set('Authorization', 'bearer ' + adminToken)
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body.status).to.equal('success');
+          expect(res.body.messages[0].message).to.equal('測試1');
+          expect(res.body.messages[0].username).to.equal('test1');
+          done();
         });
     });
 

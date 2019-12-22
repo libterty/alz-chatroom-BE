@@ -11,7 +11,11 @@ const messageController = {
         ...message.dataValues,
         username: Users.filter(i => i.dataValues).find(
           user => user.id == message.dataValues.UserId
-        ).name
+        )
+          ? Users.filter(i => i.dataValues).find(
+              user => user.id == message.dataValues.UserId
+            ).name
+          : null
       }));
       return res.status(200).json({ status: 'success', messages });
     });
