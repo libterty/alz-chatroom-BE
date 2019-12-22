@@ -182,7 +182,7 @@ describe('# Message Request', () => {
         });
     });
 
-    it('should return 200 and get token', done => {
+    it('should return 200 and get message data', done => {
       request(app)
         .get('/api/chatroom')
         .set('Authorization', 'bearer ' + adminToken)
@@ -192,6 +192,8 @@ describe('# Message Request', () => {
           expect(res.body.status).to.equal('success');
           expect(res.body.messages[0].message).to.equal('測試1');
           expect(res.body.messages[0].username).to.equal('test1');
+          expect(res.body.messages[1].message).to.equal('測試2');
+          expect(res.body.messages[1].username).to.equal('使用者已被刪除');
           done();
         });
     });
