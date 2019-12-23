@@ -15,7 +15,7 @@ const messageController = {
           ? Users.filter(i => i.dataValues).find(
               user => user.id == message.dataValues.UserId
             ).name
-          : null
+          : '使用者已被刪除'
       }));
       return res.status(200).json({ status: 'success', messages });
     });
